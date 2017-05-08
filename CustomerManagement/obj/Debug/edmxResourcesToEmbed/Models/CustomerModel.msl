@@ -40,5 +40,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="客戶清單">
+      <EntityTypeMapping TypeName="客戶資料Model.客戶清單">
+        <MappingFragment StoreEntitySet="客戶清單">
+          <ScalarProperty Name="銀行數量" ColumnName="銀行數量" />
+          <ScalarProperty Name="聯絡人數量" ColumnName="聯絡人數量" />
+          <ScalarProperty Name="客戶名稱" ColumnName="客戶名稱" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

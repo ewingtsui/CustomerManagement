@@ -76,5 +76,15 @@
       <End Role="客戶資料" EntitySet="客戶資料" />
       <End Role="客戶聯絡人" EntitySet="客戶聯絡人" />
     </AssociationSet>
+    <EntitySet Name="客戶清單" EntityType="客戶資料Model.客戶清單" />
   </EntityContainer>
+  <EntityType Name="客戶清單">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="客戶名稱" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="聯絡人數量" Type="Int32" />
+    <Property Name="銀行數量" Type="Int32" />
+  </EntityType>
 </Schema>
