@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CustomerManagement.Models;
+using CustomerManagement.Models.ViewModels;
 
 namespace CustomerManagement.Controllers
 {
@@ -15,9 +16,29 @@ namespace CustomerManagement.Controllers
         private 客戶資料Entities db = new 客戶資料Entities();
 
         // GET: 客戶資料
-        public ActionResult Index()
+        public ActionResult Index(CustomerSearchViewModel searchModel)
         {
-            return View(db.客戶資料.ToList());
+            ViewBag.SearchModel = searchModel;
+
+            var data = db.客戶資料.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchModel.客戶名稱))
+            {
+                data = data.Where(p => p.客戶名稱.Contains(searchModel.客戶名稱));
+            }
+            if (!string.IsNullOrEmpty(searchModel.統一編號))
+            {
+                data = data.Where(p => p.統一編號.Contains(searchModel.統一編號));
+            }
+            if (!string.IsNullOrEmpty(searchModel.Email))
+            {
+                data = data.Where(p => p.Email.Contains(searchModel.Email));
+            }
+            if (!string.IsNullOrEmpty(searchModel.地址))
+            {
+                data = data.Where(p => p.地址.Contains(searchModel.地址));
+            }
+            return View(data.ToList());
         }
 
         // GET: 客戶資料/Details/5
