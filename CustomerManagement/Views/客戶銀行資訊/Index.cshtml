@@ -9,6 +9,8 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+@Html.Partial("BankPartialView", (CustomerManagement.Models.ViewModels.BankSearchViewModel)ViewBag.SearchModel)
 <table class="table">
     <tr>
         <th>

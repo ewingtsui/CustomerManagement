@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CustomerManagement.Models;
+using CustomerManagement.Models.ViewModels;
 
 namespace CustomerManagement.Controllers
 {
@@ -15,10 +16,33 @@ namespace CustomerManagement.Controllers
         private 客戶資料Entities db = new 客戶資料Entities();
 
         // GET: 客戶銀行資訊
-        public ActionResult Index()
+        public ActionResult Index(BankSearchViewModel searchModel)
         {
-            var 客戶銀行資訊 = db.客戶銀行資訊.Include(客 => 客.客戶資料);
-            return View(客戶銀行資訊.ToList());
+            ViewBag.SearchModel = searchModel;
+
+            var data = db.客戶銀行資訊.Include(客 => 客.客戶資料).AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchModel.銀行名稱))
+            {
+                data = data.Where(p=>p.銀行名稱.Contains(searchModel.銀行名稱));
+            }
+            if (!string.IsNullOrEmpty(searchModel.銀行代碼.ToString()))
+            {
+                data = data.Where(p => p.銀行代碼.ToString().Contains(searchModel.銀行代碼.ToString()));
+            }
+            if (!string.IsNullOrEmpty(searchModel.分行代碼.ToString()))
+            {
+                data = data.Where(p => p.分行代碼.ToString().Contains(searchModel.分行代碼.ToString()));
+            }
+            if (!string.IsNullOrEmpty(searchModel.帳戶名稱))
+            {
+                data = data.Where(p => p.帳戶名稱.Contains(searchModel.帳戶名稱));
+            }
+            if (!string.IsNullOrEmpty(searchModel.帳戶號碼))
+            {
+                data = data.Where(p => p.帳戶號碼.Contains(searchModel.帳戶號碼));
+            }
+            return View(data.ToList());
         }
 
         // GET: 客戶銀行資訊/Details/5
