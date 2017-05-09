@@ -9,6 +9,8 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+@Html.Partial("ContactPartialView", (CustomerManagement.Models.ViewModels.ContactSearchViewModel)ViewBag.SearchModel)
 <table class="table">
     <tr>
         <th>

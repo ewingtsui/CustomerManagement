@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CustomerManagement.Models;
+using CustomerManagement.Models.ViewModels;
 
 namespace CustomerManagement.Controllers
 {
@@ -15,10 +16,33 @@ namespace CustomerManagement.Controllers
         private 客戶資料Entities db = new 客戶資料Entities();
 
         // GET: 客戶聯絡人
-        public ActionResult Index()
+        public ActionResult Index(ContactSearchViewModel searchModel)
         {
-            var 客戶聯絡人 = db.客戶聯絡人.Include(客 => 客.客戶資料);
-            return View(客戶聯絡人.ToList());
+            ViewBag.SearchModel = searchModel;
+
+            var data = db.客戶聯絡人.Include(客 => 客.客戶資料).AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchModel.職稱))
+            {
+                data = data.Where(p => p.職稱.Contains(searchModel.職稱));
+            }
+            if (!string.IsNullOrEmpty(searchModel.姓名))
+            {
+                data = data.Where(p => p.姓名.Contains(searchModel.姓名));
+            }
+            if (!string.IsNullOrEmpty(searchModel.Email))
+            {
+                data = data.Where(p => p.Email.Contains(searchModel.Email));
+            }
+            if (!string.IsNullOrEmpty(searchModel.手機))
+            {
+                data = data.Where(p => p.手機.Contains(searchModel.手機));
+            }
+            if (!string.IsNullOrEmpty(searchModel.電話))
+            {
+                data = data.Where(p => p.電話.Contains(searchModel.電話));
+            }
+            return View(data.ToList());
         }
 
         // GET: 客戶聯絡人/Details/5
