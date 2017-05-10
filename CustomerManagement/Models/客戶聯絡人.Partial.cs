@@ -4,10 +4,26 @@ namespace CustomerManagement.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using ValidationAttributes;
+    using CustomerManagement.Models;
+    using System.Linq;
+
 
     [MetadataType(typeof(客戶聯絡人MetaData))]
-    public partial class 客戶聯絡人
+    public partial class 客戶聯絡人 : IValidatableObject
     {
+        private 客戶資料Entities db = new 客戶資料Entities();
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var cnt = db.客戶聯絡人.Count(p => p.客戶Id == this.客戶Id && p.Email == this.Email);
+
+            if (cnt > 0)
+            {
+                yield return new ValidationResult("同一客戶的聯絡人Email不能重覆", new string[] { "Email" });
+            }
+
+            yield break;
+        }
     }
     
     public partial class 客戶聯絡人MetaData
