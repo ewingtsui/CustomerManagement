@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using CustomerManagement.Models;
 using CustomerManagement.Models.ViewModels;
+using System.Data.Entity.Validation;
 
 namespace CustomerManagement.Controllers
 {
@@ -20,7 +21,7 @@ namespace CustomerManagement.Controllers
         {
             ViewBag.SearchModel = searchModel;
 
-            var data = db.客戶聯絡人.Include(客 => 客.客戶資料).AsQueryable();
+            var data = db.客戶聯絡人.Where(p => p.是否已刪除 == false).Include(客 => 客.客戶資料).OrderByDescending(p => p.Id).AsQueryable();
 
             if (!string.IsNullOrEmpty(searchModel.職稱))
             {
@@ -138,10 +139,26 @@ namespace CustomerManagement.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            客戶聯絡人 客戶聯絡人 = db.客戶聯絡人.Find(id);
-            db.客戶聯絡人.Remove(客戶聯絡人);
-            db.SaveChanges();
+            客戶聯絡人 contact = db.客戶聯絡人.Find(id);
+
+            contact.是否已刪除 = true;
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                throw ex;
+            }
             return RedirectToAction("Index");
+
+            ////原來自動產生的Delete資料
+            //客戶聯絡人 客戶聯絡人 = db.客戶聯絡人.Find(id);
+            //db.客戶聯絡人.Remove(客戶聯絡人);
+            //db.SaveChanges();
+            //return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

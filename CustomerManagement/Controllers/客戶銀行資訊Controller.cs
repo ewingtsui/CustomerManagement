@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using CustomerManagement.Models;
 using CustomerManagement.Models.ViewModels;
+using System.Data.Entity.Validation;
 
 namespace CustomerManagement.Controllers
 {
@@ -20,11 +21,11 @@ namespace CustomerManagement.Controllers
         {
             ViewBag.SearchModel = searchModel;
 
-            var data = db.客戶銀行資訊.Include(客 => 客.客戶資料).AsQueryable();
+            var data = db.客戶銀行資訊.Where(p => p.是否已刪除 == false).Include(客 => 客.客戶資料).OrderByDescending(p => p.Id).AsQueryable();
 
             if (!string.IsNullOrEmpty(searchModel.銀行名稱))
             {
-                data = data.Where(p=>p.銀行名稱.Contains(searchModel.銀行名稱));
+                data = data.Where(p => p.銀行名稱.Contains(searchModel.銀行名稱));
             }
             if (!string.IsNullOrEmpty(searchModel.銀行代碼.ToString()))
             {
@@ -138,10 +139,26 @@ namespace CustomerManagement.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            客戶銀行資訊 客戶銀行資訊 = db.客戶銀行資訊.Find(id);
-            db.客戶銀行資訊.Remove(客戶銀行資訊);
-            db.SaveChanges();
+            客戶銀行資訊 bank = db.客戶銀行資訊.Find(id);
+
+            bank.是否已刪除 = true;
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+
+                throw ex;
+            }
             return RedirectToAction("Index");
+
+            ////原來自動產生的Delete資料
+            //客戶銀行資訊 客戶銀行資訊 = db.客戶銀行資訊.Find(id);
+            //db.客戶銀行資訊.Remove(客戶銀行資訊);
+            //db.SaveChanges();
+            //return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

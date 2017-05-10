@@ -85,3 +85,4 @@ C:\GitHub\CustomerManagement\CustomerManagement\bin\zh-Hant\Microsoft.Owin.Secur
 C:\GitHub\CustomerManagement\CustomerManagement\bin\zh-Hant\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
 C:\GitHub\CustomerManagement\CustomerManagement\obj\Debug\CustomerManagement.dll
 C:\GitHub\CustomerManagement\CustomerManagement\obj\Debug\CustomerManagement.pdb
+C:\GitHub\CustomerManagement\CustomerManagement\obj\Debug\CustomerManagement.csprojResolveAssemblyReference.cache
