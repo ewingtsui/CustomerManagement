@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace CustomerManagement.Controllers
 {
+    [Authorize(Users = "test@gmail.com")]
     public class 客戶清單Controller : Controller
     {
         private 客戶資料Entities db = new 客戶資料Entities();

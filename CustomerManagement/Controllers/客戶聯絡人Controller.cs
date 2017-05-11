@@ -12,6 +12,7 @@ using System.Data.Entity.Validation;
 
 namespace CustomerManagement.Controllers
 {
+    [Authorize(Users = "test@gmail.com")]
     public class 客戶聯絡人Controller : Controller
     {
         private 客戶資料Entities db = new 客戶資料Entities();
