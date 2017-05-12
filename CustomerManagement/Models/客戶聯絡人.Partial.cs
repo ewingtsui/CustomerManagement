@@ -15,7 +15,7 @@ namespace CustomerManagement.Models
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            var cnt = db.客戶聯絡人.Count(p => p.客戶Id == this.客戶Id && p.Email == this.Email);
+            var cnt = db.客戶聯絡人.Where(p => p.Id != this.Id).Count(p => p.客戶Id == this.客戶Id && p.Email == this.Email);
 
             if (cnt > 0)
             {
